@@ -30,38 +30,37 @@ public class CalenderApp {
 			 System.err.println("\nYou Type MISSED!");
 			 System.out.println("Current Month Calendar is ...");
 		}
-		LocalDate specificDate = LocalDate.of(year, month, day);
-		LocalDate firstDayOfMonth = specificDate.with(TemporalAdjusters.firstDayOfMonth());
+		LocalDate myDate = LocalDate.of(year, month, day);
+		LocalDate firstDayOfMonth = myDate.with(TemporalAdjusters.firstDayOfMonth());
 		DayOfWeek dayOfWeek = firstDayOfMonth.getDayOfWeek();
 
 		// Get the day of the week as an integer (1 = Monday, 7 = Sunday)
-		int dayOfWeekInt = dayOfWeek.getValue() + 1; // +1 To change Sunday to first day of week
+		int dayOfWeekInt = dayOfWeek.getValue() ; // +1 To change Sunday to first day of week
 		
 		// get the max days of the month
-		int daysInMonth = specificDate.lengthOfMonth();
+		int daysInMonth = myDate.lengthOfMonth();
 		
 		// month format header
 		DateTimeFormatter monthFormat = DateTimeFormatter.ofPattern("MMMM yyyy");
 		
 		// month header
-		System.out.println("\n    " + specificDate.format(monthFormat));
+		System.out.println("\n    " + myDate.format(monthFormat));
 
 		// Print out day names header
 		System.out.println("Su Mo Tu We Th Fr Sa");
 		
 		// optimize printing initial spaces
-		if (dayOfWeekInt >= 8)
-			dayOfWeekInt = 1;
+		int startDay = (dayOfWeekInt == 7) ? 0 : dayOfWeekInt;
 		
 		// Printing initial spaces
-		for (int i = 1; i < dayOfWeekInt; i++) {
+		for (int i = 0; i < startDay; i++) {
 			System.out.print("   ");
 		}
 
 		// Printing days of the month
 		for (int i = 1; i <= daysInMonth; i++) {
 			System.out.printf("%2d ", i);
-			if (((i + dayOfWeekInt - 1) % 7 == 0) || (i == daysInMonth)) {
+			if (((i + dayOfWeekInt) % 7 == 0) || (i == daysInMonth)) {
 				System.out.println();
 			}
 		}
